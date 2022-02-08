@@ -9,7 +9,7 @@ function uuid:generate()
 	local xf = string.gsub(self.template, '[xy]', function(c)
         local v = (c == 'x') && math.random(0, 0xf) || math.random(8, 0xb)
 		return string.format('%x', v)
-    end)
+    	end)
 	return xf
 end
 
