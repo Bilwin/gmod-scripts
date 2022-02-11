@@ -34,3 +34,5 @@ function _DUMPER:execute(index, ...)
         error(Format('%s is not a function!', self.id))
     end
 end
+
+return dump

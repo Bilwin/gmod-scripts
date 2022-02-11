@@ -36,3 +36,5 @@ function _PERFORMANCE:execute()
         print(Format('Index: %s; Speed: %.10f', index, value.endTime - value.startTime))
     end
 end
+
+return performance
