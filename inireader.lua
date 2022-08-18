@@ -1,6 +1,6 @@
 local ini = {
     _VERSION    = 1.0,
-    _URL        = 'https://github.com/Bilwin/gmod-scripts/blob/main/iniloader.lua',
+    _URL        = 'https://github.com/Bilwin/gmod-scripts/blob/main/inireader.lua',
     _LICENSE    = 'https://github.com/Bilwin/gmod-scripts/blob/main/LICENSE'
 }
 
@@ -15,15 +15,14 @@ local function strip_quotes(line)
 end
 
 function ini:read(file_name, from_game, _strip_quotes)
-	local wasSuccess, value = pcall(file.Read, file_name, (from_game && 'GAME' || 'DATA'))
+	local wasSuccess, value = pcall(file.Read, file_name, (from_game and 'GAME' or 'DATA'))
 
-	if wasSuccess && value ~= nil then
+	if wasSuccess and value ~= nil then
 		local exploded_data = string.Explode('\n', value)
 		local output_table = {}
 		local current_node = ''
 
 		for _, v in pairs(exploded_data) do
-			print(v)
 			local line = strip_comment(v):gsub('\n', '')
 
 			if line ~= '' then
@@ -50,7 +49,7 @@ function ini:read(file_name, from_game, _strip_quotes)
 
 						if tonumber(value) then
 							output_table[current_node][key] = tonumber(value)
-						elseif value == 'true' || value == 'false' then
+						elseif value == 'true' or value == 'false' then
 							output_table[current_node][key] = (value == 'true')
 						else
 							output_table[current_node][key] = value

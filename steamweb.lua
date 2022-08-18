@@ -1,81 +1,81 @@
-local steamhttp = {
-    _VERSION    = 1.0,
-    _URL        = 'https://github.com/Bilwin/gmod-scripts/blob/main/steamhttp.lua',
+local steamweb = {
+    _VERSION    = 1.1,
+    _URL        = 'https://github.com/Bilwin/gmod-scripts/blob/main/steamweb.lua',
     _LICENSE    = 'https://github.com/Bilwin/gmod-scripts/blob/main/LICENSE'
 }
 
-function steamhttp:get_group_members(group_name, cb)
-    local data = {}
+function steamweb:get_group_members(group_name, fn)
     HTTP({
         url = 'http://steamcommunity.com/groups/'..group_name..'/memberslistxml/?xml=1',
         method = 'get',
         headers = {},
         success = function(code, body, header)
-            if not body then error('Unknown steamhttp:get_group_members body! Code ' .. code) end
+            if not body then error('Invalid steamweb:get_group_members body! Code ' .. code) end
             body = body:Split('\n')
 
+            local response = {}
             for _, value in ipairs(body) do
                 if value:find('<steamID64>') then
-                    table.insert(data, string.Replace(value:match'%d+<', '<', ''))
+                    response[#response + 1] = string.Replace(value:match'%d+<', '<', '')
                 end
             end
 
-            cb(data)
+            fn(response)
         end,
         failed = function(err)
-            error('HTTP Request Failed, steamhttp:get_group_members -> ' .. err)
+            error('HTTP Request Failed, steamweb:get_group_members -> ' .. err)
         end
     })
 end
 
-function steamhttp:vac_banned(steamid64, cb)
-    local status = false
+function steamweb:vac_banned(steamid64, fn)
     HTTP({
         url = 'https://steamcommunity.com/profiles/'..steamid64..'/?xml=1',
         method = 'get',
         headers = {},
         success = function(code, body, header)
-            if not body then error('Unknown steamhttp:vac_banned body! Code ' .. code) end
+            if not body then error('Invalid steamweb:vac_banned body! Code ' .. code) end
             body = body:Split('\n')
 
+            local response = false
             for _, value in ipairs(body) do
                 if value:find('<vacBanned>1') then
-                    status = true
+                    response = true
                     break
                 end
             end
 
-            cb(status)
+            fn(response)
         end,
         failed = function(err)
-            error('HTTP Request Failed, steamhttp:vac_banned -> ' .. err)
+            error('HTTP Request Failed, steamweb:vac_banned -> ' .. err)
         end
     })
 end
 
-function steamhttp:get_profile_key(steamid64, key, cb)
+function steamweb:get_profile_key(steamid64, key, fn)
     HTTP({
         url = 'https://steamcommunity.com/profiles/'..steamid64..'/?xml=1',
         method = 'get',
         headers = {},
         success = function(code, body, header)
-            if not body then error('Unknown steamhttp:get_profile_key body! Code ' .. code) end
+            if not body then error('Invalid steamweb:get_profile_key body! Code ' .. code) end
             body = body:Split('\n')
-            local data
 
+            local response
             for _, v in ipairs(body) do
                 if v:find(key) then
-                    data = v
+                    response = v
                     break
                 end
             end
 
-            cb(data)
+            fn(response)
         end,
         failed = function(err)
-            error('HTTP Request Failed, steamhttp:get_profile_key -> ' .. err)
+            error('HTTP Request Failed, steamweb:get_profile_key -> ' .. err)
         end
     })
 end
 
-return steamhttp
+return steamweb

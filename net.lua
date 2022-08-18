@@ -1,28 +1,22 @@
-local util_TableToJSON, util_JSONToTable = util.TableToJSON, util.JSONToTable
-local util_Compress, util_Decompress = util.Compress, util.Decompress
-local net_WriteUInt, net_WriteData = net.WriteUInt, net.WriteData
-local net_ReadUInt, net_ReadData = net.ReadUInt, net.ReadData
+local net = net or {}
 
-function net.WriteCompressedTable(data)
-    local json = util_TableToJSON(data)
-    local compressed = util_Compress(json)
-    local length = compressed:len()
-    net_WriteUInt(length, 32)
-    net_WriteData(compressed, length)
+function net.WriteCompressedTable(tbl)
+    local serialized = util.Compress( util.TableToJSON(tbl) )
+    local length = serialized:len()
+    net.WriteUInt(length, 32)
+    net.WriteData(serialized, length)
 end
 
 function net.ReadCompressedTable()
-    local length = net_ReadUInt(32)
-    return util_JSONToTable( util_Decompress( net_ReadData(length) ) )
+    local length = net.ReadUInt(32)
+    local unserialized = util.JSONToTable( util.Decompress( net.ReadData(length) ) )
+    return unserialized
 end
 
-function net.WritePlayer(client)
-    if IsValid(client) then net_WriteUInt(client:EntIndex(), 8)
-    else net_WriteUInt(0, 8)
-    end
+function net.WritePlayer(player)
+    net.WriteUInt(player:UserID(), 16)
 end
 
 function net.ReadPlayer()
-    local i = net_ReadUInt(8) if not i then return end
-    return Entity(i)
+    return Player( net.ReadUInt(16) )
 end

@@ -317,7 +317,10 @@ string.to_table = string.ToTable
 string.trim_left = string.TrimLeft
 string.trim_right = string.TrimRight
 string.trim = string.Trim
-string.split = string.Split
+string.split = function(str, sep)
+  sep = sep or ''
+  return string.Split(str, sep)
+end
 
 system.app_time = system.AppTime
 system.battery_power = system.BatteryPower
@@ -363,6 +366,7 @@ table.sort_by_member = table.SortByMember
 table.sort_desc = table.SortDesc
 table.to_string = table.ToString
 table.winning_key = table.GetWinningKey
+table.shuffle = table.Shuffle
 
 team.add_score = team.AddScore
 team.best_auto_join_team = team.BestAutoJoinTeam
@@ -574,14 +578,16 @@ if CLIENT then
 
   ents.create_client_prop = ents.CreateClientProp
 
-  frame_blend.add_frame = frame_blend.AddFrame
-  frame_blend.blend_frame = frame_blend.BlendFrame
-  frame_blend.complete_frame = frame_blend.CompleteFrame
-  frame_blend.draw_preview = frame_blend.DrawPreview
-  frame_blend.is_active = frame_blend.IsActive
-  frame_blend.is_last_frame = frame_blend.IsLastFrame
-  frame_blend.renderable_frames = frame_blend.RenderableFrames
-  frame_blend.should_skip_frame = frame_blend.ShouldSkipFrame
+  timer.Simple(0, function()
+    frame_blend.add_frame = frame_blend.AddFrame
+    frame_blend.blend_frame = frame_blend.BlendFrame
+    frame_blend.complete_frame = frame_blend.CompleteFrame
+    frame_blend.draw_preview = frame_blend.DrawPreview
+    frame_blend.is_active = frame_blend.IsActive
+    frame_blend.is_last_frame = frame_blend.IsLastFrame
+    frame_blend.renderable_frames = frame_blend.RenderableFrames
+    frame_blend.should_skip_frame = frame_blend.ShouldSkipFrame
+  end)
 
   gui.activate_gameui = gui.ActivateGameUI
   gui.enable_screen_clicker = gui.EnableScreenClicker
@@ -939,58 +945,64 @@ else
   cleanup.get_list = cleanup.GetList
   cleanup.replace_entity = cleanup.ReplaceEntity
 
-  constraint.add_constraint_table = constraint.AddConstraintTable
-  constraint.add_constraint_table_nodelete = constraint.AddConstraintTableNoDelete
-  constraint.adv_ballsocket = constraint.AdvBallsocket
-  constraint.axis = constraint.Axis
-  constraint.ballsocket = constraint.Ballsocket
-  constraint.can_constrain = constraint.CanConstrain
-  constraint.create_keyframe_rope = constraint.CreateKeyframeRope
-  constraint.create_static_anchor_point = constraint.CreateStaticAnchorPoint
-  constraint.elastic = constraint.Elastic
-  constraint.find = constraint.Find
-  constraint.find_constraint = constraint.FindConstraint
-  constraint.find_constraint_entity = constraint.FindConstraintEntity
-  constraint.find_constraints = constraint.FindConstraints
-  constraint.forget_constraints = constraint.ForgetConstraints
-  constraint.get_all_constrained_entities = constraint.GetAllConstrainedEntities
-  constraint.get_table = constraint.GetTable
-  constraint.has_constraints = constraint.HasConstraints
-  constraint.hydraulic = constraint.Hydraulic
-  constraint.keepupright = constraint.Keepupright
-  constraint.motor = constraint.Motor
-  constraint.muscle = constraint.Muscle
-  constraint.no_collide = constraint.NoCollide
-  constraint.pulley = constraint.Pulley
-  constraint.remove_all = constraint.RemoveAll
-  constraint.remove_constraints = constraint.RemoveConstraints
-  constraint.rope = constraint.Rope
-  constraint.slider = constraint.Slider
-  constraint.weld = constraint.Weld
-  constraint.winch = constraint.Winch
+  if constraint then
+    constraint.add_constraint_table = constraint.AddConstraintTable
+    constraint.add_constraint_table_nodelete = constraint.AddConstraintTableNoDelete
+    constraint.adv_ballsocket = constraint.AdvBallsocket
+    constraint.axis = constraint.Axis
+    constraint.ballsocket = constraint.Ballsocket
+    constraint.can_constrain = constraint.CanConstrain
+    constraint.create_keyframe_rope = constraint.CreateKeyframeRope
+    constraint.create_static_anchor_point = constraint.CreateStaticAnchorPoint
+    constraint.elastic = constraint.Elastic
+    constraint.find = constraint.Find
+    constraint.find_constraint = constraint.FindConstraint
+    constraint.find_constraint_entity = constraint.FindConstraintEntity
+    constraint.find_constraints = constraint.FindConstraints
+    constraint.forget_constraints = constraint.ForgetConstraints
+    constraint.get_all_constrained_entities = constraint.GetAllConstrainedEntities
+    constraint.get_table = constraint.GetTable
+    constraint.has_constraints = constraint.HasConstraints
+    constraint.hydraulic = constraint.Hydraulic
+    constraint.keepupright = constraint.Keepupright
+    constraint.motor = constraint.Motor
+    constraint.muscle = constraint.Muscle
+    constraint.no_collide = constraint.NoCollide
+    constraint.pulley = constraint.Pulley
+    constraint.remove_all = constraint.RemoveAll
+    constraint.remove_constraints = constraint.RemoveConstraints
+    constraint.rope = constraint.Rope
+    constraint.slider = constraint.Slider
+    constraint.weld = constraint.Weld
+    constraint.winch = constraint.Winch
+  end
 
-  construct.magnet = construct.Magnet
-  construct.set_phys_prop = construct.SetPhysProp
+  if construct then
+    construct.magnet = construct.Magnet
+    construct.set_phys_prop = construct.SetPhysProp
+  end
 
-  duplicator.apply_bone_modifiers = duplicator.ApplyBoneModifiers
-  duplicator.apply_entity_modifiers = duplicator.ApplyEntityModifiers
-  duplicator.clear_entity_modifier = duplicator.ClearEntityModifier
-  duplicator.copy = duplicator.Copy
-  duplicator.copy_ent_table = duplicator.CopyEntTable
-  duplicator.copy_ents = duplicator.CopyEnts
-  duplicator.create_constraint_from_table = duplicator.CreateConstraintFromTable
-  duplicator.create_entity_from_table = duplicator.CreateEntityFromTable
-  duplicator.do_bone_manipulator = duplicator.DoBoneManipulator
-  duplicator.do_flex = duplicator.DoFlex
-  duplicator.do_generic = duplicator.DoGeneric
-  duplicator.do_generic_physics = duplicator.DoGenericPhysics
-  duplicator.generic_duplicator_function = duplicator.GenericDuplicatorFunction
-  duplicator.get_all_constrained_entities_and_constraints = duplicator.GetAllConstrainedEntitiesAndConstraints
-  duplicator.paste = duplicator.Paste
-  duplicator.remove_map_created_entities = duplicator.RemoveMapCreatedEntities
-  duplicator.store_bone_modifier = duplicator.StoreBoneModifier
-  duplicator.store_entity_modifier = duplicator.StoreEntityModifier
-  duplicator.workout_size = duplicator.WorkoutSize
+  if duplicator then
+    duplicator.apply_bone_modifiers = duplicator.ApplyBoneModifiers
+    duplicator.apply_entity_modifiers = duplicator.ApplyEntityModifiers
+    duplicator.clear_entity_modifier = duplicator.ClearEntityModifier
+    duplicator.copy = duplicator.Copy
+    duplicator.copy_ent_table = duplicator.CopyEntTable
+    duplicator.copy_ents = duplicator.CopyEnts
+    duplicator.create_constraint_from_table = duplicator.CreateConstraintFromTable
+    duplicator.create_entity_from_table = duplicator.CreateEntityFromTable
+    duplicator.do_bone_manipulator = duplicator.DoBoneManipulator
+    duplicator.do_flex = duplicator.DoFlex
+    duplicator.do_generic = duplicator.DoGeneric
+    duplicator.do_generic_physics = duplicator.DoGenericPhysics
+    duplicator.generic_duplicator_function = duplicator.GenericDuplicatorFunction
+    duplicator.get_all_constrained_entities_and_constraints = duplicator.GetAllConstrainedEntitiesAndConstraints
+    duplicator.paste = duplicator.Paste
+    duplicator.remove_map_created_entities = duplicator.RemoveMapCreatedEntities
+    duplicator.store_bone_modifier = duplicator.StoreBoneModifier
+    duplicator.store_entity_modifier = duplicator.StoreEntityModifier
+    duplicator.workout_size = duplicator.WorkoutSize
+  end
 
   engine.close_server = engine.CloseServer
   engine.light_style = engine.LightStyle
@@ -1083,3 +1095,39 @@ else
   undo.set_custom_undo_text = undo.SetCustomUndoText
   undo.set_player = undo.SetPlayer
 end
+
+math.ease_in_out = math.EaseInOut
+math.ease.in_back = math.ease.InBack
+math.ease.in_bounce = math.ease.InBounce
+math.ease.in_circ = math.ease.InCirc
+math.ease.in_cubic = math.ease.InCubic
+math.ease.in_elastic = math.ease.InElastic
+math.ease.in_expo = math.ease.InExpo
+math.ease.in_out_back = math.ease.InOutBack
+math.ease.in_out_bounce = math.ease.InOutBounce
+math.ease.in_out_circ = math.ease.InOutCirc
+math.ease.in_out_cubic = math.ease.InOutCubic
+math.ease.in_out_elastic = math.ease.InOutElastic
+math.ease.in_out_expo = math.ease.InOutExpo
+math.ease.in_out_quad = math.ease.InOutQuad
+math.ease.in_out_quart = math.ease.InOutQuart
+math.ease.in_out_quint = math.ease.InOutQuint
+math.ease.in_out_sine = math.ease.InOutSine
+math.ease.in_quad = math.ease.InQuad
+math.ease.in_quart = math.ease.InQuart
+math.ease.in_quint = math.ease.InQuint
+math.ease.in_sine = math.ease.InSine
+math.ease.out_back = math.ease.OutBack
+math.ease.out_bounce = math.ease.OutBounce
+math.ease.out_circ = math.ease.OutCirc
+math.ease.out_cubic = math.ease.OutCubic
+math.ease.out_elastic = math.ease.OutElastic
+math.ease.out_expo = math.ease.OutExpo
+math.ease.out_quad = math.ease.OutQuad
+math.ease.out_quart = math.ease.OutQuart
+math.ease.out_quint = math.ease.OutQuint
+math.ease.out_sine = math.ease.OutSine
+
+concommand.get_table = concommand.GetTable
+concommand.remove = concommand.Remove
+concommand.add = concommand.Add
