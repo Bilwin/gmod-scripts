@@ -23,9 +23,8 @@ return function(enums, existing_enumerator)
 	if enumerator > 0 then
 		local idx = first_valid_word:match('^([%w0-9]+)')
 
-		if idx then
-			enumerators[idx] = enumerator - 1
-		end
+		if not idx then return end
+		enumerators[idx] = enumerator - 1
 	end
 
     return enumerator - 1

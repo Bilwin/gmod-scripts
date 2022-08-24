@@ -1,9 +1,3 @@
-local ini = {
-    _VERSION    = 1.0,
-    _URL        = 'https://github.com/Bilwin/gmod-scripts/blob/main/inireader.lua',
-    _LICENSE    = 'https://github.com/Bilwin/gmod-scripts/blob/main/LICENSE'
-}
-
 local function strip_comment(line)
     local startPos, endPos = line:find('[;#]')
     if startPos then line = line:sub(1, startPos - 1):Trim() end
@@ -14,7 +8,7 @@ local function strip_quotes(line)
     return line:gsub('[\"]', ''):Trim()
 end
 
-function ini:read(file_name, from_game, _strip_quotes)
+return function(file_name, from_game, _strip_quotes)
 	local wasSuccess, value = pcall(file.Read, file_name, (from_game and 'GAME' or 'DATA'))
 
 	if wasSuccess and value ~= nil then
@@ -62,5 +56,3 @@ function ini:read(file_name, from_game, _strip_quotes)
 		return output_table
 	end
 end
-
-return ini

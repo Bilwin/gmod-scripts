@@ -1,10 +1,4 @@
-local random = {
-    _VERSION    = 1.1,
-    _URL        = 'https://github.com/Bilwin/gmod-scripts/blob/main/random.lua',
-    _LICENSE    = 'https://github.com/Bilwin/gmod-scripts/blob/main/LICENSE'
-}
-
-function random:generate(len)
+return function(len)
     len = len or math.random(32)
     local str = ''
 
@@ -16,5 +10,3 @@ function random:generate(len)
 
     return str
 end
-
-return random

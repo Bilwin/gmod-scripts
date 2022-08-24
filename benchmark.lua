@@ -1,11 +1,13 @@
 return function(name, amount, fn, ...)
-    collectgarbage()
+    coroutine.wrap(function(a, b, c, ...)
+        collectgarbage()
 
-    local sTime = os.clock()
+        local sTime = os.clock()
+    
+        for i = 0, b do
+            c(...)
+        end
 
-    for i = 0, amount do
-        fn(...)
-    end
-
-    print( ('Benchmark \'%s\' (x%d) took %.0fms.'):format(name, amount, (os.clock() - sTime) * 1000 ) )
+        print( ('Benchmark \'%s\' (x%d) took %.0fms.'):format(a, b, (os.clock() - sTime) * 1000 ) )
+    end)(name, amount, fn, ...)
 end
