@@ -1,7 +1,7 @@
 return function(enums, existing_enumerator)
     if type(enums) ~= 'string' or enums:len() == 0 then return end
 
-    local words = enums:upper():gsub('\n', ' '):split ' '
+    local words = enums:upper():gsub('\n', ' '):split(' ')
     local first_valid_word = nil
     local enumerator = 1
 

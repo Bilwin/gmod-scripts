@@ -1,6 +1,10 @@
 local function strip_comment(line)
     local startPos, endPos = line:find('[;#]')
-    if startPos then line = line:sub(1, startPos - 1):Trim() end
+
+    if startPos then
+		line = line:sub(1, startPos - 1):Trim()
+	end
+
     return line
 end
 
@@ -20,7 +24,9 @@ return function(file_name, from_game, _strip_quotes)
 			local line = strip_comment(v):gsub('\n', '')
 
 			if line ~= '' then
-				if _strip_quotes then line = strip_quotes(line) end
+				if _strip_quotes then
+					line = strip_quotes(line)
+				end
 
 				if line:sub(1, 1) == '[' then
 					local start_pos, endPos = line:find('%]')
@@ -28,7 +34,9 @@ return function(file_name, from_game, _strip_quotes)
 					if start_pos then
 						current_node = line:sub(2, start_pos - 1)
 
-						if not output_table[current_node] then output_table[current_node] = {} end
+						if not output_table[current_node] then
+							output_table[current_node] = {}
+						end
 					else
 						return false
 					end
