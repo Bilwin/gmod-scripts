@@ -21,12 +21,10 @@ end
 function precache:execute()
     for _, v in ipairs(self.mdl) do
         util.PrecacheModel(v)
-        print(Format('Cached \'%s\' model', v))
     end
 
     for _, v in ipairs(self.sounds) do
         util.PrecacheSound(v)
-        print(Format('Cached \'%s\' sound', v))
     end
 end
 
