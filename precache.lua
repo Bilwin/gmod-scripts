@@ -30,12 +30,12 @@ end
 
 local oMaterial = oMaterial or Material
 function Material(materialName, pngParams)
-    if not self.materials[materialName] then
+    if not precache.materials[materialName] then
         pngParams = pngParams or 'nil'
-        self.materials[materialName] = oMaterial(materialName, pngParams)
+        precache.materials[materialName] = oMaterial(materialName, pngParams)
     end
 
-    return self.materials[materialName]
+    return precache.materials[materialName]
 end
 
 return precache
