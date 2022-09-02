@@ -10,6 +10,7 @@ end
 function net.ReadCompressedTable()
     local length = net.ReadUInt(32)
     local unserialized = util.JSONToTable( util.Decompress( net.ReadData(length) ) )
+    if not unserialized or next(unserialized) == nil then unserialized = {} end
     return unserialized
 end
 
