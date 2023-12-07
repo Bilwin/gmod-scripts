@@ -1,3 +1,4 @@
+local enumerators = {}
 return function(enums, existing_enumerator)
     if type(enums) ~= 'string' or enums:len() == 0 then return end
 
